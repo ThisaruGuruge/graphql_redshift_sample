@@ -1,18 +1,15 @@
 import ballerina/graphql;
 import ballerina/io;
 import ballerina/sql;
-import ballerinax/mysql;
-import ballerinax/mysql.driver as _;
+import ballerinax/aws.redshift;
+import ballerinax/aws.redshift.driver as _;
 
-configurable DbConfig dbConfig = ?;
+// Connection Configurations
+configurable string jdbcUrl = ?;
+configurable string user = ?;
+configurable string password = ?;
 
-final mysql:Client db = check new (
-    dbConfig.host,
-    dbConfig.user,
-    dbConfig.password,
-    dbConfig.database,
-    dbConfig.port
-);
+final redshift:Client db = check new (jdbcUrl, user, password);
 
 @graphql:ServiceConfig {
     graphiql: {
